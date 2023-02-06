@@ -1,5 +1,0 @@
-type: object
-properties:
-  amount:
-    type: number
-x-internal: false
