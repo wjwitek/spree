@@ -1,0 +1,165 @@
+get:
+  summary: Return an Adjustment
+  tags:
+  - Adjustments
+  security:
+  - bearer_auth: []
+  description: Returns an Adjustment
+  operationId: show-adjustment
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: string
+  - name: include
+    in: query
+    description: 'Select which associated resources you would like to fetch, see:
+      <a href="https://jsonapi.org/format/#fetching-includes">https://jsonapi.org/format/#fetching-includes</a>'
+    example: order,adjustable
+    schema:
+      type: string
+  responses:
+    '200':
+      description: Record found
+      content:
+        application/vnd.api+json:
+          examples:
+            Example:
+              value:
+                data:
+                  id: '6'
+                  type: adjustment
+                  attributes:
+                    source_type: Spree::TaxRate
+                    adjustable_type: Spree::LineItem
+                    amount: '1.0'
+                    label: Shipping
+                    mandatory:
+                    eligible: true
+                    created_at: '2022-11-08T19:33:54.871Z'
+                    updated_at: '2022-11-08T19:33:54.875Z'
+                    state: open
+                    included: false
+                    display_amount: "$1.00"
+                  relationships:
+                    order:
+                      data:
+                        id: '8'
+                        type: order
+                    adjustable:
+                      data:
+                        id: '2'
+                        type: line_item
+                    source:
+                      data:
+                        id: '5'
+                        type: tax_rate
+          schema:
+            "$ref": "../schemas/Resource.yaml"
+    '404':
+      "$ref": "../responses/RecordNotFoundError.yaml"
+    '401':
+      "$ref": "../responses/AuthenticationFailedError.yaml"
+patch:
+  summary: Update an Adjustment
+  tags:
+  - Adjustments
+  security:
+  - bearer_auth: []
+  description: Updates an Adjustment
+  operationId: update-adjustment
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: string
+  - name: include
+    in: query
+    description: 'Select which associated resources you would like to fetch, see:
+      <a href="https://jsonapi.org/format/#fetching-includes">https://jsonapi.org/format/#fetching-includes</a>'
+    example: order,adjustable
+    schema:
+      type: string
+  responses:
+    '200':
+      description: Record updated
+      content:
+        application/vnd.api+json:
+          examples:
+            Example:
+              value:
+                data:
+                  id: '8'
+                  type: adjustment
+                  attributes:
+                    source_type: Spree::TaxRate
+                    adjustable_type: Spree::LineItem
+                    amount: '15.0'
+                    label: New label
+                    mandatory:
+                    eligible: true
+                    created_at: '2022-11-08T19:33:55.540Z'
+                    updated_at: '2022-11-08T19:33:55.775Z'
+                    state: open
+                    included: false
+                    display_amount: "$15.00"
+                  relationships:
+                    order:
+                      data:
+                        id: '10'
+                        type: order
+                    adjustable:
+                      data:
+                        id: '4'
+                        type: line_item
+                    source:
+                      data:
+                        id: '7'
+                        type: tax_rate
+          schema:
+            "$ref": "../schemas/Resource.yaml"
+    '422':
+      description: Invalid request
+      content:
+        application/vnd.api+json:
+          examples:
+            Example:
+              value:
+                error: Label can't be blank
+                errors:
+                  label:
+                  - can't be blank
+          schema:
+            "$ref": "../schemas/ValidationErrors.yaml"
+    '404':
+      "$ref": "../responses/RecordNotFoundError.yaml"
+    '401':
+      "$ref": "../responses/AuthenticationFailedError.yaml"
+  requestBody:
+    content:
+      application/json:
+        schema:
+          "$ref": "../schemas/Adjustments/UpdateParams.yaml"
+delete:
+  summary: Delete an Adjustment
+  tags:
+  - Adjustments
+  security:
+  - bearer_auth: []
+  description: Deletes an Adjustment
+  operationId: delete-adjustment
+  parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: string
+  responses:
+    '204':
+      description: Record deleted
+    '404':
+      "$ref": "../responses/RecordNotFoundError.yaml"
+    '401':
+      "$ref": "../responses/AuthenticationFailedError.yaml"
